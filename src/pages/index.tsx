@@ -27,7 +27,10 @@ export default function Home(props: HomeProps) {
     challengesCompleted={props.challengesCompleted}
     >
       <div className={styles.overlay}>
-      <SideBar />
+      <SideBar
+        home = {true}
+        award = {false}
+        />
       <div className={styles.container}>
 
         <Head>
