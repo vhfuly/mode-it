@@ -1,11 +1,13 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
+import Cookies from 'js-cookie';
+
 import challenges from '../../challenges.json';
 
 interface ChallengesProviderProps {
   children: ReactNode;
 }
 
-interface Challange {
+interface Challenge {
   type: 'body' | 'eye'
   description: string
   amount: number
@@ -18,7 +20,7 @@ interface ChallengesContextData {
   levelUp: () => void
   startNewChallenge: () => void
   resetChallenge: () => void
-  activeChallenge: Challange
+  activeChallenge: Challenge
   experienceToNextLevel: number
   completeChallenge: () => void
 }
@@ -42,6 +44,12 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
   useEffect(() => {
     Notification.requestPermission()
   }, [])
+
+  useEffect(() => {
+    Cookies.set('level', String(level));
+    Cookies.set('currentExperience', String(currentExperience));
+    Cookies.set('challengesCompleted', String(challengesCompleted));
+  },[level, currentExperience, challengesCompleted])
 
   function startNewChallenge() {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length)
