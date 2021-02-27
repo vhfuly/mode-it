@@ -1,0 +1,26 @@
+.container {
+  background: var(--white);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 112px;
+  padding: 3rem 0;
+  border-radius: 5px;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.container div:last-child {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container div:last-child img {
+  margin: 2rem auto ;
+}
+

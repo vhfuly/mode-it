@@ -1,3 +1,7 @@
+.overlay {
+  display: flex;
+  flex-direction: row;
+}
 .container {
   height: 100vh;
   max-width: 992px;
