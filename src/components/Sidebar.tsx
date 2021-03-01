@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import styles from '../styles/components/SideBar.module.css';
-import { useState } from 'react';
 
 interface SideBarProps {
   home: boolean;
