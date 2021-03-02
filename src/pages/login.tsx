@@ -1,11 +1,7 @@
 import styles from '../styles/pages/Login.module.css';
-import axios from 'axios';
-import Link from 'next/link';
-
+import { signIn } from 'next-auth/client'
 
 function Login() {
- const client = process.env.REACT_CLIENT_ID
- console.log(client)
   return (
     <div className={styles.container}>
       <div>
@@ -19,10 +15,8 @@ function Login() {
           <p>Faça login com seu Github para começar</p>
         </div>
         <div className={styles.inputs}>
-            <input type="text" placeholder="Digite seu username"/>
-            <Link href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-            <button> -> </button>
-            </Link>
+            <input type="text" placeholder="Login" disabled/>
+            <button onClick={() => signIn('github',{ callbackUrl: 'http://localhost:3000/api/teste' })}> -> </button>
         </div>
       </div>
     </div>
