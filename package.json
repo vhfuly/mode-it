@@ -8,11 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/mongodb": "^3.6.8",
     "@types/next-auth": "^3.1.25",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "js-cookie": "^2.2.1",
+    "localStorage": "^1.0.4",
     "mongodb": "^3.6.4",
     "next": "10.0.7",
     "next-auth": "^3.6.1",

@@ -7,10 +7,10 @@ import { ExperienceBar } from '../components/ExperienceBar';
 import { Profile } from '../components/Profile';
 import { ChallengeBox } from '../components/ChallengeBox';
 import { CountdownProvider } from '../contexts/CountdownContext';
-
 import styles from '../styles/pages/Home.module.css';
 import { ChallengesProvider } from '../contexts/ChallengesContext';
 import { SideBar } from '../components/Sidebar';
+import { useEffect } from 'react';
 
 interface HomeProps {
   level: number,

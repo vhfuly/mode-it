@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 
 import challenges from '../../challenges.json';
 import { LevelUPModal } from '../components/LevelUpModal';
+import axios from 'axios';
+import { IUser } from '../types/User';
 
 interface ChallengesProviderProps {
   children: ReactNode;
@@ -23,6 +25,8 @@ interface ChallengesContextData {
   challengesCompleted: number;
   activeChallenge: Challenge;
   experienceToNextLevel: number;
+  image: string;
+  name: string;
   levelUp: () => void;
   startNewChallenge: () => void;
   resetChallenge: () => void;
@@ -31,7 +35,7 @@ interface ChallengesContextData {
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData)
-
+ 
 export function ChallengesProvider({ 
   children,
   ...rest
@@ -42,18 +46,32 @@ export function ChallengesProvider({
   const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0)
   const [activeChallenge, setActiveChallenge] = useState(null)
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false)
+  const [image, setImage] = useState('')
+  const [name, setName] = useState('')
 
   function levelUp() {
     setLevel(level + 1);
     setIsLevelModalOpen(true)
   }
 
-
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2)
 
   useEffect(() => {
     Notification.requestPermission()
   }, [])
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  async function getData() {
+    const user: IUser = await axios.get('/api/data')
+      .then(res => res.data)
+      .catch(error => {message: error})
+      console.log(user)
+      setImage(user.image)
+      setName(user.name)
+    }
 
   useEffect(() => {
     Cookies.set('level', String(level));
@@ -112,6 +130,8 @@ export function ChallengesProvider({
       challengesCompleted,
       activeChallenge,
       experienceToNextLevel,
+      image,
+      name,
       levelUp,
       startNewChallenge,
       resetChallenge,

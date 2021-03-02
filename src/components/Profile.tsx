@@ -3,12 +3,12 @@ import { useContext } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
 
 export function Profile() {
-  const { level } = useContext(ChallengesContext)
+  const { level, image, name} = useContext(ChallengesContext)
   return (
     <div className={styles.profileContainer}>
-      <img src="https://github.com/Victoradireto.png" alt="Victor" />
+      <img src={image} alt="Victor" />
       <div>
-        <strong>Victor Fuly</strong>
+        <strong>{name}</strong>
         <p>
           <img src="icons/level.svg" alt="level"/>
           Level {level}
