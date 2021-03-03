@@ -8,7 +8,6 @@ const options = {
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      name: 'teste',
     }),
   ],
   database:process.env.MONGO_URI,

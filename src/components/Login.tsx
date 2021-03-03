@@ -1,4 +1,4 @@
-import styles from '../styles/pages/Login.module.css';
+import styles from '../styles/components/Login.module.css';
 import { signIn } from 'next-auth/client'
 
 function Login() {
@@ -16,7 +16,7 @@ function Login() {
         </div>
         <div className={styles.inputs}>
             <input type="text" placeholder="Login" disabled/>
-            <button onClick={() => signIn('github',{ callbackUrl: 'http://localhost:3000/' })}> -> </button>
+            <button onClick={() => signIn('github',{ callbackUrl: 'http://localhost:3000' })}> -> </button>
         </div>
       </div>
     </div>

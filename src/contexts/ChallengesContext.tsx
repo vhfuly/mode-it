@@ -1,6 +1,7 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import useSWR from 'swr';
 
+import api from '../utils/api';
 import challenges from '../../challenges.json';
 import { LevelUPModal } from '../components/LevelUpModal';
 import axios from 'axios';
@@ -58,25 +59,26 @@ export function ChallengesProvider({
 
   useEffect(() => {
     Notification.requestPermission()
-  }, [])
-
-  useEffect(() => {
     getData()
   }, [])
-
+  
+  
+  
   async function getData() {
     const user: IUser = await axios.get('/api/data')
-      .then(res => res.data)
-      .catch(error => {message: error})
-      console.log(user)
-      setImage(user.image)
-      setName(user.name)
-    }
+    .then(res => res.data)
+    .catch(error => error)
+    setImage(user.image)
+    setName(user.name)
+    setLevel(user.level)
+    setChallengesCompleted(user.challenges)
+    setCurrentExperience(user.currentExperience)
+  }
 
   useEffect(() => {
-    Cookies.set('level', String(level));
-    Cookies.set('currentExperience', String(currentExperience));
-    Cookies.set('challengesCompleted', String(challengesCompleted));
+    // Cookies.set('level', String(level));
+    // Cookies.set('currentExperience', String(currentExperience));
+    // Cookies.set('challengesCompleted', String(challengesCompleted));
   },[level, currentExperience, challengesCompleted])
 
   function startNewChallenge() {
