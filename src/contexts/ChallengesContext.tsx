@@ -1,10 +1,9 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import useSWR from 'swr';
 
-import api from '../utils/api';
+import { get } from '../utils/api';
 import challenges from '../../challenges.json';
 import { LevelUPModal } from '../components/LevelUpModal';
-import axios from 'axios';
 import { IUser } from '../types/User';
 
 interface ChallengesProviderProps {
@@ -59,13 +58,10 @@ export function ChallengesProvider({
 
   useEffect(() => {
     Notification.requestPermission()
-    getData()
   }, [])
   
-  
-  
   async function getData() {
-    const user: IUser = await axios.get('/api/data')
+    const user: IUser = await get('/api/data')
     .then(res => res.data)
     .catch(error => error)
     setImage(user.image)
@@ -76,10 +72,8 @@ export function ChallengesProvider({
   }
 
   useEffect(() => {
-    // Cookies.set('level', String(level));
-    // Cookies.set('currentExperience', String(currentExperience));
-    // Cookies.set('challengesCompleted', String(challengesCompleted));
-  },[level, currentExperience, challengesCompleted])
+    getData()
+  },[])
 
   function startNewChallenge() {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length)

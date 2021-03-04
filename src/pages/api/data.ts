@@ -5,7 +5,6 @@ import { IUser } from '../../types/User';
 export default async function data(request: NextApiRequest, response :NextApiResponse) {
   
   const token = request.cookies['next-auth.session-token']
-  console.log(token)
   const { sessions, users } = await connect();
 
   const session = await sessions.findOne({sessionToken: token})

@@ -12,28 +12,17 @@ import { ChallengesProvider } from '../contexts/ChallengesContext';
 import { SideBar } from '../components/Sidebar';
 import { useSession } from 'next-auth/client';
 import Login from '../components/Login';
-import useSWR from 'swr';
-import api from '../utils/api';
 import { Loader } from '../components/Loader';
 import { signOut } from 'next-auth/client'
 interface HomeProps {
   level: number,
   currentExperience: number,
   challengesCompleted: number,
-
 }
 
 //As props são acessadas da função getServerSideProps
 export default function Home(props: HomeProps) {
   const [ session, loading ] = useSession()
-  // const { data, error } = useSWR('api/data', api)
-  // if (error) {
-  //   console.log(error)
-  // }
-
-  // if (data) {
-  //   console.log(data)
-  // }
   return (
    
     <ChallengesProvider
