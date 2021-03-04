@@ -10,11 +10,9 @@ export default async function update(request: NextApiRequest, response :NextApiR
     const db = await connectToDatabase(process.env.MONGO_URI);
     const users = db.collection('users')
     const userFound = await users.findOne({_id})
-    const teste =  await db.collection('users').find({}).toArray()
-    console.log(teste)
-      if (!userFound) {
-        response.status(400).json({error:`user with id: ${_id} not found`});
-      }
+    if (!userFound) {
+      response.status(400).json({error:`user with id: ${_id} not found`});
+    }
     await users.updateOne(
       {
         _id,
