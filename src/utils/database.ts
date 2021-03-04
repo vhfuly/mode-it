@@ -1,4 +1,4 @@
-import { MongoClient, Collection } from 'mongodb';
+import { MongoClient, Collection, Db } from 'mongodb';
 
 interface ConnectType {
   sessions: Collection;
@@ -6,15 +6,20 @@ interface ConnectType {
   client: MongoClient;
 }
 
-const client = new MongoClient(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+let cachedDb: Db = null;
 
-export default async function connect(): Promise<ConnectType> {
-  if (!client.isConnected()) await client.connect();
+export async function connectToDatabase(uri: string) {
+  if (cachedDb) {
+    return cachedDb;
+  }
 
-  const sessions = client.db('test_auth').collection('sessions');
-  const users = client.db('test_auth').collection('users');
-  return { sessions, users, client };
+  const client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  const db = client.db('test_auth')
+  cachedDb = db;
+
+  return db;
 }

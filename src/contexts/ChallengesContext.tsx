@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
-import useSWR from 'swr';
 
 import { get } from '../utils/api';
 import challenges from '../../challenges.json';
@@ -43,6 +42,7 @@ export function ChallengesProvider({
 
   const [level, setLevel] = useState(rest.level ?? 1)
   const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0)
+  const [experience, setExperience] = useState(rest.currentExperience ?? 0)
   const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0)
   const [activeChallenge, setActiveChallenge] = useState(null)
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false)
@@ -64,16 +64,17 @@ export function ChallengesProvider({
     const user: IUser = await get('/api/data')
     .then(res => res.data)
     .catch(error => error)
-    setImage(user.image)
-    setName(user.name)
-    setLevel(user.level)
-    setChallengesCompleted(user.challenges)
-    setCurrentExperience(user.currentExperience)
+    setImage(user.image);
+    setName(user.name);
+    setLevel(user.level);
+    setChallengesCompleted(user.challenges);
+    setCurrentExperience(user.currentExperience);
+    setExperience(user.experience);
   }
 
   useEffect(() => {
     getData()
-  },[])
+  },[image, name, level, challengesCompleted, currentExperience, experience])
 
   function startNewChallenge() {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length)

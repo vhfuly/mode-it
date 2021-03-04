@@ -14,6 +14,8 @@ import { useSession } from 'next-auth/client';
 import Login from '../components/Login';
 import { Loader } from '../components/Loader';
 import { signOut } from 'next-auth/client'
+import { put, get} from '../utils/api';
+import axios from 'axios';
 interface HomeProps {
   level: number,
   currentExperience: number,
@@ -30,13 +32,14 @@ export default function Home(props: HomeProps) {
     currentExperience={props.currentExperience}
     challengesCompleted={props.challengesCompleted}
     >
-      {!session &&
+      {!session && !loading &&
         <Login />
       }
-      {loading &&
+      {loading && 
         <Loader />
       }
-      {session &&
+    
+      {session && !loading &&
       <div className={styles.overlay}>
       <SideBar
         home = {true}
@@ -47,7 +50,6 @@ export default function Home(props: HomeProps) {
         <Head>
           <title>Início | move.it</title>
         </Head>
-
         <div className={styles.signout}>
             <button onClick={() => signOut()}> <img src="/icons/out.svg" alt="out"/> </button>
         </div>
@@ -66,7 +68,6 @@ export default function Home(props: HomeProps) {
             </div>
           </section>
         </CountdownProvider>
-        
       </div>
       </div>
       }
