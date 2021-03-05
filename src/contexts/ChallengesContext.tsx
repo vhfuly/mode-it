@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 
-import { get } from '../utils/api';
+import { get, put } from '../utils/api';
 import challenges from '../../challenges.json';
 import { LevelUPModal } from '../components/LevelUpModal';
 import { IUser } from '../types/User';
@@ -40,17 +40,17 @@ export function ChallengesProvider({
   ...rest
 }: ChallengesProviderProps) {
 
-  const [level, setLevel] = useState(rest.level ?? 1)
-  const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0)
-  const [experience, setExperience] = useState(rest.currentExperience ?? 0)
-  const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0)
+  const [level, setLevel] = useState(1)
+  const [currentExperience, setCurrentExperience] = useState(0)
+  const [experience, setExperience] = useState(0)
+  const [challengesCompleted, setChallengesCompleted] = useState(0)
   const [activeChallenge, setActiveChallenge] = useState(null)
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false)
   const [image, setImage] = useState('')
   const [name, setName] = useState('')
+  const [currentUser, setCurrentUser] = useState<IUser>()
 
   function levelUp() {
-    setLevel(level + 1);
     setIsLevelModalOpen(true)
   }
 
@@ -64,17 +64,19 @@ export function ChallengesProvider({
     const user: IUser = await get('/api/data')
     .then(res => res.data)
     .catch(error => error)
+    setCurrentUser(user)
     setImage(user.image);
     setName(user.name);
     setLevel(user.level);
     setChallengesCompleted(user.challenges);
     setCurrentExperience(user.currentExperience);
     setExperience(user.experience);
+
   }
 
   useEffect(() => {
     getData()
-  },[image, name, level, challengesCompleted, currentExperience, experience])
+  },[experience])
 
   function startNewChallenge() {
     const randomChallengeIndex = Math.floor(Math.random() * challenges.length)
@@ -101,23 +103,40 @@ export function ChallengesProvider({
     setIsLevelModalOpen(false)
   }
 
-  function completeChallenge() {
+  async function completeChallenge() {
     if(!activeChallenge) {
       return;
     }
-
     const { amount } = activeChallenge;
 
     let finalExperience = currentExperience + amount
 
     if (finalExperience >= experienceToNextLevel) {
       finalExperience = finalExperience - experienceToNextLevel
-      levelUp()
+      setIsLevelModalOpen(true)
+      setLevel(level + 1)
+      await updateData(challengesCompleted, amount, finalExperience, level + 1)
+    } else {
+      await updateData(challengesCompleted, amount, finalExperience)
     }
+  }
 
-    setCurrentExperience(finalExperience)
-    setActiveChallenge(null)
-    setChallengesCompleted(challengesCompleted + 1)
+  async function updateData(
+    challengesCompleted: number,
+    amount: number,
+    finalExperience: number,
+    levelUp?: number,
+    ) {
+      const user: IUser  = currentUser;
+      user.experience = currentUser.experience + amount;
+      user.level = levelUp ? levelUp : level;
+      user.challenges = challengesCompleted + 1;
+      user.currentExperience = finalExperience
+      await put('/api/update', {data: user} )
+      setCurrentExperience(finalExperience)
+      setActiveChallenge(null)
+      setChallengesCompleted(challengesCompleted + 1)
+      getData()
   }
 
   return (

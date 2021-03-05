@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 
 export default async function update(request: NextApiRequest, response :NextApiResponse) {
   if (request.method === 'PUT') {
-    const user = request.body
+    const user = request.body.data
     const _id = new ObjectId(user._id)
     const db = await connectToDatabase(process.env.MONGO_URI);
     const users = db.collection('users')

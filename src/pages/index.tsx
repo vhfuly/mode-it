@@ -38,7 +38,6 @@ export default function Home(props: HomeProps) {
       {loading && 
         <Loader />
       }
-    
       {session && !loading &&
       <div className={styles.overlay}>
       <SideBar
