@@ -1,5 +1,6 @@
 import { SideBar } from "../components/Sidebar";
 import styles from '../styles/pages/Home.module.css';
+import { LeaderTable } from "../components/LeaderTable";
 
 function LeaderBoard() {
   return (
@@ -9,7 +10,9 @@ function LeaderBoard() {
         award = {true}
         />
         <h1>LeaderBoard</h1>
-      </div>
+
+        <LeaderTable />
+    </div>
   )
 }
 
