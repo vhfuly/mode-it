@@ -1,4 +1,4 @@
-import styles from '../styles/components/Profile.module.css';
+import styles from '../styles/components/LeaderTable.module.css';
 import { IUser } from '../types/User';
 import { get } from '../utils/api';
 import { useEffect, useState } from 'react';
@@ -17,20 +17,35 @@ export function LeaderTable() {
   const [users, setUsers] = useState<IUser[]>()
   return (
     <div className={styles.container}>
+      <h1>LeaderBoard</h1>
       <table>
         <tr>
-            <td>Posição</td>
-            <td>Usuário</td>
-            <td>Desafios</td>
-            <td>Experiência</td>
+            <th>Posição</th>
+            <th>Usuário</th>
+            <th>Desafios</th>
+            <th>Experiência</th>
         </tr>
 
         {users && users.map( (user, index) =>(
           <tr>
               <td>{index +1 }</td>
-              <td>{user.name}</td>
-              <td>{user.challenges}</td>
-              <td>{user.experience}</td>
+              <td>
+                <div className={styles.user}>
+                    <div>
+                      <img src={user.image} alt={user.name}/>
+
+                    </div>
+                    <div>
+                      <h4>{user.name}</h4>
+                      <div>
+                        <img src="/icons/level.svg" alt="level"/>
+                        Level {user.level}
+                      </div>
+                    </div>
+                </div>
+              </td>
+              <td><span>{user.challenges}</span> completados </td>
+              <td><span>{user.experience}</span> xp </td>
             </tr>
         ))}
         

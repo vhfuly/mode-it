@@ -9,8 +9,6 @@ function LeaderBoard() {
         home = {false}
         award = {true}
         />
-        <h1>LeaderBoard</h1>
-
         <LeaderTable />
     </div>
   )
