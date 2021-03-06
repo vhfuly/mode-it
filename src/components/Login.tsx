@@ -16,7 +16,7 @@ function Login() {
         </div>
         <div className={styles.inputs}>
             <input type="text" placeholder="Login" disabled/>
-            <button onClick={() => signIn('github',{ callbackUrl: '/' })}> -&gt; </button>
+            <button onClick={() => signIn('github',{ callbackUrl: process.env.NEXT_PUBLIC_URL })}> -&gt; </button>
         </div>
       </div>
     </div>

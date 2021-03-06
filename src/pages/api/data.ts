@@ -1,15 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase} from '../../utils/database';
 import { IUser } from '../../types/User';
+import { getSession } from 'next-auth/client';
 
 export default async function data(request: NextApiRequest, response :NextApiResponse) {
   if (request.method === 'GET') {
-    const token = request.cookies['next-auth.session-token']
+    const token = await getSession({ req: request });
     const db = await connectToDatabase(process.env.MONGO_URI);
     const sessions = db.collection('sessions');
       const users = db.collection('users');
 
-    const session = await sessions.findOne({sessionToken: token})
+    const session = await sessions.findOne({accessToken: token.accessToken})
     
     const user: IUser = await users.findOne({_id: session.userId})
     if (!user.level) {
