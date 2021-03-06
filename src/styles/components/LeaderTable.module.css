@@ -9,6 +9,7 @@
 
 .container table {
   width: 65rem ;
+  border-collapse: collapse;
 }
 
 .container table th{
@@ -23,7 +24,12 @@
   text-align: center;
   width: 5rem;
   padding: 1rem;
-  border-right: 0.4rem solid  var(--background)
+  border-right: 0.4rem solid  var(--background);
+  border-radius: 10px 0px 0px 10px;
+}
+
+.container table tr td:last-child {
+  border-radius: 0px 10px 10px 0px;
 }
 
 .container table td{

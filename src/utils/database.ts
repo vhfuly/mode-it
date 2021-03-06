@@ -18,7 +18,7 @@ export async function connectToDatabase(uri: string) {
     useUnifiedTopology: true,
   });
 
-  const db = client.db('test_auth')
+  const db = client.db('moveit')
   cachedDb = db;
 
   return db;
