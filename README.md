@@ -1,4 +1,4 @@
-<h1 align="center"> Move.it</h1>
+<h1 align="center"><img src="https://raw.githubusercontent.com/vhfuly/move-it/master/public/logo-full.svg"></h1>
 
 <p align="center">
  <a href="#functionality">Functionality</a> •
