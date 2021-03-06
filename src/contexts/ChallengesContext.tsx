@@ -7,9 +7,7 @@ import { IUser } from '../types/User';
 
 interface ChallengesProviderProps {
   children: ReactNode;
-  level: number,
-  currentExperience: number,
-  challengesCompleted: number,
+  session: object,
 }
 
 interface Challenge {

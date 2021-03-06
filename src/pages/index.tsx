@@ -10,16 +10,12 @@ import { CountdownProvider } from '../contexts/CountdownContext';
 import styles from '../styles/pages/Home.module.css';
 import { ChallengesProvider } from '../contexts/ChallengesContext';
 import { SideBar } from '../components/Sidebar';
-import { useSession } from 'next-auth/client';
+import { useSession, getSession } from 'next-auth/client';
 import Login from '../components/Login';
 import { Loader } from '../components/Loader';
 import { signOut } from 'next-auth/client'
-import { put, get} from '../utils/api';
-import axios from 'axios';
 interface HomeProps {
-  level: number,
-  currentExperience: number,
-  challengesCompleted: number,
+  session: object,
 }
 
 //As props são acessadas da função getServerSideProps
@@ -28,17 +24,15 @@ export default function Home(props: HomeProps) {
   return (
    
     <ChallengesProvider
-    level={props.level}
-    currentExperience={props.currentExperience}
-    challengesCompleted={props.challengesCompleted}
+    session={props.session}
     >
-      {!session && !loading &&
+      {!props.session && !loading &&
         <Login />
       }
       {loading && 
         <Loader />
       }
-      {session && !loading &&
+      {props.session  && !loading &&
       <div className={styles.overlay}>
       <SideBar
         home = {true}
@@ -77,13 +71,10 @@ export default function Home(props: HomeProps) {
 //todas as chamadas no getServerSideProps serão feitas antes de finalizar a tela
 //utilizado para dados de SEO que estão no banco de dados.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-  const { level, currentExperience, challengesCompleted } = ctx.req.cookies;
+  const session = await getSession(ctx)
   return {
     props: {
-      level: Number(level),
-      currentExperience: Number(currentExperience),
-      challengesCompleted: Number(challengesCompleted),
+      session,
     }
   }
 }
