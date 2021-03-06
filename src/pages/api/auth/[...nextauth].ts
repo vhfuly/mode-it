@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next';
-
 const options = {
   // Configure one or more authentication providers
   providers: [
@@ -16,4 +15,5 @@ const options = {
 
 export default (req: NextApiRequest, res: NextApiResponse): Promise<void> =>
   NextAuth(req, res, options)
+
   
