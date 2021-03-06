@@ -4,14 +4,14 @@ async function get<T = any>(
   path: string,
   config?: AxiosRequestConfig,
 ): Promise<AxiosResponse<T>> {
-  return axios.get<T>(path, config);
+  return axios.get<T>(process.env.NEXT_PUBLIC_URL + path, config);
 }
 
 async function put<T = any>(
   path: string,
   config?: AxiosRequestConfig,
 ): Promise<AxiosResponse<T>> {
-  return axios.put<T>(path, config);
+  return axios.put<T>(process.env.NEXT_PUBLIC_URL + path, config);
 }
 
 
